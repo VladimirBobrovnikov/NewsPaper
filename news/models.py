@@ -7,6 +7,7 @@ CHOICES_POST_NEWS = [
 ]
 
 
+# Модель автора с методом подсчета его рейтинга
 class Author(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating_author = models.IntegerField(default=0)
@@ -25,10 +26,13 @@ class Author(models.Model):
         self.save()
 
 
+# Модель категорий для систематизации статей и новостей
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
 
+# Модель Статьи(или новости) с методами like и dislike для изменения рейтинга статьи
+# Метод preview показывает первые 124 символа статьи
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='posts')
     post_or_news = models.CharField(max_length=4, choices=CHOICES_POST_NEWS, default='POST')
@@ -50,11 +54,13 @@ class Post(models.Model):
         return (self.text[:124] + '...')
 
 
+# Модель реализующая связь Многие ко Многим
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
+# Модель комментария с методами like и dislike для изменения рейтинга комментария
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments_p')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments_u')
