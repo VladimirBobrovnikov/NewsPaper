@@ -12,6 +12,10 @@ class Author(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating_author = models.IntegerField(default=0)
 
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
     def update_rating(self):
         summ_rating_posts = 0  # суммарный рейтинг каждой статьи автора;
         summ_rating_comments_at_post = 0  # суммарный рейтинг всех комментариев к статьям автора;
@@ -25,10 +29,20 @@ class Author(models.Model):
         self.rating_author = (3 * summ_rating_posts) + summ_rating_comments + summ_rating_comments_at_post
         self.save()
 
+    def __str__(self):
+        return f'Автор: {self.user.username}'
+
 
 # Модель категорий для систематизации статей и новостей
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
+    def __str__(self):
+        return f'Категория: {self.name}'
 
 
 # Модель Статьи(или новости) с методами like и dislike для изменения рейтинга статьи
@@ -36,11 +50,21 @@ class Category(models.Model):
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='posts')
     post_or_news = models.CharField(max_length=4, choices=CHOICES_POST_NEWS, default='POST')
-    date_time_in = models.DateTimeField(auto_now_add=True)
+    date_time_in = models.DateTimeField(auto_now_add=True, )
     category = models.ManyToManyField(Category, through='PostCategory')
     title = models.CharField(max_length=255)
     text = models.TextField()
     rating_post = models.IntegerField(default=0)
+
+    def get_absolute_url(self):
+        return f'/posts/{self.id}'
+
+    def __str__(self):
+        return f'Статья: {self.title}. (Рейтинг: {self.rating_post}'
+
+    class Meta:
+        verbose_name = 'Статья'
+        verbose_name_plural = 'Статьи'
 
     def like(self):
         self.rating_post += 1
@@ -67,6 +91,10 @@ class Comment(models.Model):
     text = models.TextField()
     date_time = models.DateTimeField(auto_now_add=True)
     rating_comment = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
 
     def like(self):
         self.rating_comment += 1
