@@ -11,8 +11,4 @@ class PostFilter(FilterSet):
     class Meta:
         model = Post
         fields = {
-            # 'author',
-            # 'date_time_in',
-            # 'category',
-            # 'rating_post'
         }

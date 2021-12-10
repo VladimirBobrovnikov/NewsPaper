@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
     <head>
         <meta charset="utf-8" />
         <link href='https://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
-        <title>NewsPaper - {% block title %} {{ flatpage.title }} {% endblock title %}</title>
+        <title>NewsPaper - {% block head_title %} {{ flatpage.title }} {% endblock head_title %}</title>
         <!-- Favicon-->
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" type='text/css'/>
@@ -21,6 +22,12 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="/about/">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="/contacts/">Contacts</a></li>
                         <li class="nav-item"><a class="nav-link" href="/posts/">Posts</a></li>
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="/account/account/">Personal Area</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/accounts/logout/">Logout</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="/accounts/login/">Login</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
