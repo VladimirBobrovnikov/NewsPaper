@@ -17,4 +17,9 @@
     <br>
     <p>Вы имеете статус Автор</p>
 {% endif %}
+<br>
+<h6>Ваши текущие подписки:</h6>
+{% for category in user_category %}
+{{ category.name }} - Отписаться(реализовать!!!)<br>
+{% endfor %}
 {% endblock content %}

@@ -171,3 +171,26 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # адрес сервера Яндекс-почты для всех один и тот же
+EMAIL_PORT = 587  # порт smtp сервера тоже одинаковый
+EMAIL_HOST_USER = 't9126362257@gmail.com'  # ваше имя пользователя, например, если ваша почта
+# user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
+EMAIL_HOST_PASSWORD = 'Vobla020491'  # пароль от почты
+EMAIL_USE_TLS = True  # Яндекс использует ssl, подробнее о том, что это,
+# почитайте в дополнительных источниках, но включать его здесь обязательно
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = DEFAULT_FROM_EMAIL  # это будет у нас вместо аргумента FROM в массовой рассылке
+MANAGERS = [
+    ('Vovka', 'v.bobrovnikoff@yandex.ru'),
+]
+
+
+# Задачник
+# формат даты, которую будет воспринимать наш задачник (вспоминаем модуль по фильтрам)
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+
+# если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds

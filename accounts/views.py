@@ -2,7 +2,7 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from news.models import Author
+from news.models import Author, Category
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
@@ -19,6 +19,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_not_author'] = not Author.objects.filter(user=self.get_object()).exists()
+        context['user_category'] = Category.objects.filter(subscribed_users=self.request.user)
         return context
 
 

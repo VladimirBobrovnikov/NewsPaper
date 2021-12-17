@@ -36,6 +36,7 @@ class Author(models.Model):
 # Модель категорий для систематизации статей и новостей
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    subscribed_users = models.ManyToManyField(User, through='SubscribedUsersCategory')
 
     class Meta:
         verbose_name = 'Категория'
@@ -83,6 +84,10 @@ class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+
+class SubscribedUsersCategory(models.Model):
+    subscribed_users = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 # Модель комментария с методами like и dislike для изменения рейтинга комментария
 class Comment(models.Model):
