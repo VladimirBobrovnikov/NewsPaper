@@ -20,6 +20,6 @@
 <br>
 <h6>Ваши текущие подписки:</h6>
 {% for category in user_category %}
-{{ category.name }} - Отписаться(реализовать!!!)<br>
+{{ category.name }} - <a href="{% url 'unsubscribe' %}?category_id={{ category.id }}">Отписаться<br></a>
 {% endfor %}
 {% endblock content %}

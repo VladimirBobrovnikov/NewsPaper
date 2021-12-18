@@ -71,4 +71,5 @@ def subscription(request):
     if not category.subscribed_users.filter(email=request.user.email).exists():
         user = request.user
         SubscribedUsersCategory.objects.create(subscribed_users=user, category=category)
-    return redirect('/')
+    return redirect('personal_area')
+

@@ -2,7 +2,7 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from news.models import Author, Category
+from news.models import Author, Category, SubscribedUsersCategory
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
@@ -31,5 +31,13 @@ def upgrade_me(request):
     authors_group = Group.objects.get(name='authors')
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
-    return redirect('/')
-    return redirect('/')
+    return redirect('personal_area')
+
+
+def unsubscribe(request):
+    user = request.user
+    category_id = request.GET.get('category_id')
+    category = Category.objects.get(id=category_id)
+    if category.subscribed_users.filter(email=request.user.email).exists():
+        SubscribedUsersCategory.objects.filter(subscribed_users=user, category=category).delete()
+    return redirect('personal_area')

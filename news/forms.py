@@ -14,9 +14,3 @@ class PostForm(ModelForm):
         fields = [
             'author', 'category', 'title', 'text', 'post_or_news',
         ]
-
-
-# class AuthorForm(ModelForm):
-#     class Meta:
-#         model = Author
-#         fields = []
